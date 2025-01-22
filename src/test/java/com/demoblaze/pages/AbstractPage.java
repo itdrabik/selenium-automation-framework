@@ -1,16 +1,45 @@
-package com.example.pages;
+package com.demoblaze.pages;
 
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class HomePage {
 
-    private WebDriver driver;
+public abstract class AbstractPage implements Page {
 
-    // Constructor of the Class
-    public HomePage(WebDriver driver) {
+    protected WebDriver driver;
+
+    // Constructor for AbstractPage
+    public AbstractPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public void navigateToPage() {
+        driver.get(getPageUrl());
+    }
+
+    @Override
+    public boolean isPageLoaded() {
+        return driver.getTitle().contains("Expected Keyword");
+    }
+
+    @Override
+    public void testPageTitle() {
+        String title = driver.getTitle();
+        if (!title.contains("Expected Title")) {
+            throw new AssertionError("Page title does not match. Found: " + title);
+        }
+    }
+
+    // Abstract method to be implemented by child classes
+    @Override
+    public abstract String getPageUrl();
+
+    // Method to get the page title (common for all pages)
+    public String getPageTitle() {
+        return driver.getTitle();
     }
 
     // Method to click login button
@@ -33,8 +62,8 @@ public class HomePage {
 
     // Method to check the visibility of the pop-up window for SignUp
     public boolean isSignUpModalVisible() {
-        WebElement loginModal = driver.findElement(By.id("signInModal"));
-        return loginModal.isDisplayed();
+        WebElement signUpModal = driver.findElement(By.id("signInModal"));
+        return signUpModal.isDisplayed();
     }
 
     // Method to check the visibility of an element
@@ -42,11 +71,4 @@ public class HomePage {
         WebElement element = driver.findElement(By.id(elementId));
         return element.isDisplayed();
     }
-
-    // Method to retrieve page title
-    public String getPageTitle() {
-        return driver.getTitle();
-    }
-
-    // Other methods that represent interactions with page elements
 }

@@ -1,5 +1,5 @@
-import com.example.config.ConfigManager;
-import com.example.pages.HomePage;
+import com.demoblaze.config.ConfigManager;
+import com.demoblaze.pages.HomePage;
 import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -80,10 +80,19 @@ public class HomePageTest {
 
     //The functional test testUrl, utilizing configuration from the config.properties file, verifies whether the current URL of the page matches the expected URL.
     @Test
-    public void testUrl() {
+    public void testUrlFromConfig() {
         String expectedUrl = ConfigManager.getProperty("url");
         String actualUrl = driver.getCurrentUrl();
         assertEquals(expectedUrl, actualUrl, "URL should be " + expectedUrl);
+    }
+
+    //A functional test that verifies that the navigateToPage() method correctly redirects the user to the correct URL from homePage.getPageUrl()
+    @Test
+    public void testNavigateToPage() {
+        homePage.navigateToPage();
+        String currentUrl = driver.getCurrentUrl();
+        String expectedUrl = homePage.getPageUrl(); // URL obtained from the HomePage class
+        assertEquals(expectedUrl, currentUrl, "The page URL should match.");
     }
 
     //The functional test testPageContent verifies whether the page contains the expected content, "PRODUCT STORE," by checking the page's source code.
@@ -92,6 +101,12 @@ public class HomePageTest {
         String expectedContent = "PRODUCT STORE";
         String bodyText = driver.getPageSource();
         assertTrue(bodyText.contains(expectedContent), "Page content should contain 'PRODUCT STORE'");
+    }
+
+    //Functional test to see if the page loads
+    @Test
+    public void testPageLoaded() {
+        assertTrue(homePage.isPageLoaded(), "The homepage should be loaded successfully.");
     }
 
     @AfterEach
