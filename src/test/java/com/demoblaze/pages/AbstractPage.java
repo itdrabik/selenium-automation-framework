@@ -66,9 +66,15 @@ public abstract class AbstractPage implements Page {
         return signUpModal.isDisplayed();
     }
 
-    // Method to check the visibility of an element
+    // Method to check the visibility of an element using Id
     public boolean isElementVisible(String elementId) {
         WebElement element = driver.findElement(By.id(elementId));
+        return element.isDisplayed();
+    }
+
+    // Method to check the visibility of an element using cssSelector
+    public boolean isElementVisibleXpathSelector(String elementxpath) {
+        WebElement element = driver.findElement(By.xpath(elementxpath));
         return element.isDisplayed();
     }
 }
