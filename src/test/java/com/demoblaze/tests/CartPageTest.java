@@ -105,43 +105,43 @@ public class CartPageTest {
         assertTrue(cartPage.isPageLoaded(), "The cartpage should be loaded successfully.");
     }
 
-    //Functional test that verifies that the text “Products” should be visible
+    //Functional test that verifies that the text “Products” is visible
     @Test
     public void testIsPageElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/h2"), "'Products' text should be visible");
     }
 
-    //Functional test that verifies that the text “Pic” should be visible
+    //Functional test that verifies that the text “Pic” is visible
     @Test
     public void testIsPicElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[1]"), "'Pic' text should be visible");
     }
 
-    //Functional test that verifies that the text “Title” should be visible
+    //Functional test that verifies that the text “Title” is visible
     @Test
     public void testIsTitleElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[2]"), "'Title' text should be visible");
     }
 
-    //Functional test that verifies that the text “Price” should be visible
+    //Functional test that verifies that the text “Price” is visible
     @Test
     public void testIsPriceElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[3]"), "'Price' text should be visible");
     }
 
-    //Functional test that verifies that the text “x” should be visible
+    //Functional test that verifies that the text “x” is visible
     @Test
     public void testIsXElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[4]"), "'x' text should be visible");
     }
 
-    //Functional test that verifies that the text “Total” should be visible
+    //Functional test that verifies that the text “Total” is visible
     @Test
     public void testIsTotalElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[2]/h2"), "'Total' text should be visible");
     }
 
-    //Functional test that verifies that the "Place Order" button should be visible
+    //Functional test that verifies that the "Place Order" button is visible
     @Test
     public void testIsPlaceOrderButtonElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[2]/button"), "'Place Order' button should be visible");
@@ -172,13 +172,13 @@ public class CartPageTest {
         assertTrue(cartPage.isTextPresent("Email: demo@blazemeter.com "), "Text should be visible on the page.");
     }
 
-    //Functional test that verifies that LOGO should be visible
+    //Functional test that verifies that LOGO is visible
     @Test
     public void testIsLOGOElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"nava\"]/img"), "'LOGO should be visible");
     }
 
-    //Functional test that verifies that second LOGO should be visible
+    //Functional test that verifies that second LOGO is visible
     @Test
     public void testIsSecondLOGOElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"fotcont\"]/div[3]/div/div/h4/img"), "'LOGO should be visible");
