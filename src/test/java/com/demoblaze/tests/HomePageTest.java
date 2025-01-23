@@ -1,7 +1,9 @@
 import com.demoblaze.config.ConfigManager;
 import com.demoblaze.pages.HomePage;
 import org.junit.jupiter.api.AfterEach;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -11,6 +13,10 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,6 +79,27 @@ public class HomePageTest {
         assertTrue(homePage.isSignUpModalVisible(),"The registration window should be visible");
     }
 
+    //Functional test to check the visibility of the “Contact” elements in the menu
+    @Test
+    public void testIsContactMenuItemVisibleCssSelector() {
+        boolean isVisible = homePage.isElementVisibleCssSelector("#navbarExample > ul > li:nth-child(2) > a");
+        assertTrue(isVisible, "'Contact' element should be visible");
+    }
+
+    //Functional test to check the visibility of the “About Us” elements in the menu
+    @Test
+    public void testIsAboutUsMenuItemVisibleCssSelector() {
+        boolean isVisible = homePage.isElementVisibleCssSelector("#navbarExample > ul > li:nth-child(3) > a");
+        assertTrue(isVisible, "'About us' element should be visible");
+    }
+
+    //Functional test to check the visibility of the “Cart” elements in the menu
+    @Test
+    public void testIsCartMenuItemVisibleCssSelector() {
+        boolean isVisible = homePage.isElementVisibleCssSelector("#navbarExample > ul > li:nth-child(4) > a");
+        assertTrue(isVisible, "'Cart' element should be visible");
+    }
+
     @Test
     public void testSignUpButtonVisible() {
         assertTrue(homePage.isElementVisible("signin2"), "The registration button should be visible");
@@ -107,6 +134,57 @@ public class HomePageTest {
     @Test
     public void testPageLoaded() {
         assertTrue(homePage.isPageLoaded(), "The homepage should be loaded successfully.");
+    }
+
+    //Functional test to verify that the gallery element is visible.
+    @Test
+    public void testGalleryElementVisible() {
+        assertTrue(homePage.isElementVisibleXpathSelector("//*[@id=\"carouselExampleIndicators\"]/div/div[1]/img"), "The Gallery element should be visible");
+    }
+
+    //Functional test to verify that the “Categories” element is visible.
+    @Test
+    public void testCategoryElementVisible() {
+        assertTrue(homePage.isElementVisible("cat"), "The 'Category' element should be visible");
+    }
+
+    //Functional test to verify that the “Phone” element is visible.
+    @Test
+    public void testPhoneElementVisible() {
+        assertTrue(homePage.isElementVisibleXpathSelector("(//*[@id='itemc'])[1]"), "'Phone' should be visible");
+    }
+
+    //Functional test to verify that the “Laptops” element is visible.
+    @Test
+    public void testLaptopsElementVisible() {
+        assertTrue(homePage.isElementVisibleXpathSelector("(//*[@id='itemc'])[2]"), "'Laptops' should be visible");
+    }
+
+    //Functional test to verify that the “Monitors” element is visible.
+    @Test
+    public void testMonitorsElementVisible() {
+        assertTrue(homePage.isElementVisibleXpathSelector("(//*[@id='itemc'])[3]"), "'Monitors' should be visible");
+    }
+
+    //Functional test to verify that the random product element is visible.
+    @Test
+    public void testRandomProductElementVisible() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        String productXPath = "(//*[@id=\"tbodyid\"]/div)[1]";
+        WebElement randomProduct = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(productXPath)));
+        assertTrue(randomProduct.isDisplayed(), "Random product should be visible");
+    }
+
+    //Functional test to verify that the "Previous" button element is visible.
+    @Test
+    public void testPreviousButtonVisible() {
+        assertTrue(homePage.isElementVisible("prev2"), "The 'Previous' button should be visible");
+    }
+
+    //Functional test to verify that the "Next" button element is visible.
+    @Test
+    public void testNextButtonVisible() {
+        assertTrue(homePage.isElementVisible("next2"), "The 'Next' button should be visible");
     }
 
     @AfterEach
