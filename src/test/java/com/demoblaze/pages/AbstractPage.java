@@ -72,9 +72,20 @@ public abstract class AbstractPage implements Page {
         return element.isDisplayed();
     }
 
-    // Method to check the visibility of an element using cssSelector
+    // Method to check the visibility of an element using xpath selector
     public boolean isElementVisibleXpathSelector(String elementxpath) {
         WebElement element = driver.findElement(By.xpath(elementxpath));
         return element.isDisplayed();
+    }
+
+    // Method to check the visibility of an element using CSS selector
+    public boolean isElementVisibleCssSelector(String elementCssSelector) {
+        WebElement element = driver.findElement(By.cssSelector(elementCssSelector));
+        return element.isDisplayed();
+    }
+
+    // Method that checks the text on the page
+    public boolean isTextPresent(String text) {
+        return driver.getPageSource().contains(text);
     }
 }

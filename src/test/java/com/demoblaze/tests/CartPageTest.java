@@ -107,44 +107,109 @@ public class CartPageTest {
 
     //Functional test that verifies that the text “Products” should be visible
     @Test
-    public void testIsPageElementVisibleCssSelector() {
+    public void testIsPageElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/h2"), "'Products' text should be visible");
     }
 
     //Functional test that verifies that the text “Pic” should be visible
     @Test
-    public void testIsPicElementVisibleCssSelector() {
+    public void testIsPicElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[1]"), "'Pic' text should be visible");
     }
 
     //Functional test that verifies that the text “Title” should be visible
     @Test
-    public void testIsTitleElementVisibleCssSelector() {
+    public void testIsTitleElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[2]"), "'Title' text should be visible");
     }
 
     //Functional test that verifies that the text “Price” should be visible
     @Test
-    public void testIsPriceElementVisibleCssSelector() {
+    public void testIsPriceElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[3]"), "'Price' text should be visible");
     }
 
     //Functional test that verifies that the text “x” should be visible
     @Test
-    public void testIsXElementVisibleCssSelector() {
+    public void testIsXElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[1]/div/table/thead/tr/th[4]"), "'x' text should be visible");
     }
 
     //Functional test that verifies that the text “Total” should be visible
     @Test
-    public void testIsTotalElementVisibleCssSelector() {
+    public void testIsTotalElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[2]/h2"), "'Total' text should be visible");
     }
 
     //Functional test that verifies that the "Place Order" button should be visible
     @Test
-    public void testIsPlaceOrderButtonElementVisibleCssSelector() {
+    public void testIsPlaceOrderButtonElementVisibleXpathSelector() {
         assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"page-wrapper\"]/div/div[2]/button"), "'Place Order' button should be visible");
+    }
+
+    //Functional test that verifies that the "About Us" text is visible
+    @Test
+    public void testIsAboutUsTextVisibleOnPage() {
+        assertTrue(cartPage.isTextPresent("We believe performance needs to be validated at every stage of the software development cycle and our\n" +
+                "              open source compatible, massively scalable platform makes that a reality."), "Text should be visible on the page.");
+    }
+
+    //Functional test that verifies that the address text is visible
+    @Test
+    public void testIsAddressTextVisibleOnPage() {
+        assertTrue(cartPage.isTextPresent("Address: 2390 El Camino Real"), "Text should be visible on the page.");
+    }
+
+    //Functional test that verifies that the phone text is visible
+    @Test
+    public void testIsPhoneTextVisibleOnPage() {
+        assertTrue(cartPage.isTextPresent("Phone: +440 123456"), "Text should be visible on the page.");
+    }
+
+    //Functional test that verifies that the address text is visible
+    @Test
+    public void testIsEmailTextVisibleOnPage() {
+        assertTrue(cartPage.isTextPresent("Email: demo@blazemeter.com "), "Text should be visible on the page.");
+    }
+
+    //Functional test that verifies that LOGO should be visible
+    @Test
+    public void testIsLOGOElementVisibleXpathSelector() {
+        assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"nava\"]/img"), "'LOGO should be visible");
+    }
+
+    //Functional test that verifies that second LOGO should be visible
+    @Test
+    public void testIsSecondLOGOElementVisibleXpathSelector() {
+        assertTrue(cartPage.isElementVisibleXpathSelector("//*[@id=\"fotcont\"]/div[3]/div/div/h4/img"), "'LOGO should be visible");
+    }
+
+    //Functional test to check the visibility of the “Home” elements in the menu
+    @Test
+    public void testIsHomeMenuItemVisibleCssSelector() {
+        boolean isVisible = cartPage.isElementVisibleCssSelector("#navbarExample > ul > li.nav-item.active > a");
+        assertTrue(isVisible, "'Home' element should be visible");
+    }
+
+    //Functional test to check the visibility of the “Contact” elements in the menu
+    @Test
+    public void testIsContactMenuItemVisibleCssSelector() {
+        boolean isVisible = cartPage.isElementVisibleCssSelector("#navbarExample > ul > li:nth-child(2) > a");
+        assertTrue(isVisible, "'Contact' element should be visible");
+    }
+
+    //Functional test to check the visibility of the “About Us” elements in the menu
+    @Test
+    public void testIsAboutUsMenuItemVisibleCssSelector() {
+        boolean isVisible = cartPage.isElementVisibleCssSelector("#navbarExample > ul > li:nth-child(3) > a");
+        assertTrue(isVisible, "'About us' element should be visible");
+    }
+
+    //Functional test to check the visibility of the “Cart” elements in the menu
+    @Test
+    public void testIsCartMenuItemVisibleCssSelector() {
+        boolean isVisible = cartPage.isElementVisibleCssSelector("#navbarExample > ul > li:nth-child(4) > a");
+        assertTrue(isVisible, "'Cart' element should be visible");
     }
 
     @AfterEach
