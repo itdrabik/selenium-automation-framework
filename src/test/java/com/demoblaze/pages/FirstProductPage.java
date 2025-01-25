@@ -8,10 +8,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public abstract class AbstractProductPage extends AbstractPage {
+public class FirstProductPage extends AbstractProductPage {
 
-    public AbstractProductPage(WebDriver driver) {
+    //Constructor
+    public FirstProductPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public String getPageUrl(){
+        return "https://www.demoblaze.com/prod.html?idp_=1";
     }
 
     @Override
@@ -29,34 +35,12 @@ public abstract class AbstractProductPage extends AbstractPage {
     }
 
     @Override
-    public String getPageUrl() {
-        return null;
-    }
-
-    private WebElement waitForElement(By locator) {
+    public boolean isSpecificFeatureVisible() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[5]/div/div[2]/div[1]/div/div/p")));
+        String actualText = element.getText();
+        System.out.println("Actual text: " + actualText); // Wyświetl tekst w konsoli
+        String expectedText = "The Samsung Galaxy S6 is powered by 1.5GHz octa-core Samsung Exynos 7420 processor and it comes with 3GB of RAM. The phone packs 32GB of internal storage cannot be expanded.";
+        return actualText.contains(expectedText);
     }
-
-    public boolean isProductTitleVisible() {
-        return waitForElement(By.cssSelector("#tbodyid > h2")).isDisplayed();
-    }
-
-    public boolean isProductPriceVisible() {
-        return waitForElement(By.cssSelector("#tbodyid > h3")).isDisplayed();
-    }
-
-    public boolean isProductDescriptionVisible() {
-        return waitForElement(By.cssSelector("#more-information > p")).isDisplayed();
-    }
-
-    public boolean isAddToCartButtonVisible() {
-        return waitForElement(By.cssSelector(".btn-success")).isDisplayed();
-    }
-
-    public boolean isPictureVisible() {
-        return waitForElement(By.cssSelector("#imgp > div > img")).isDisplayed();
-    }
-
-    public abstract boolean isSpecificFeatureVisible();
 }
