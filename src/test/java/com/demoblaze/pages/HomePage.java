@@ -11,6 +11,11 @@ import java.time.Duration;
 
 public class HomePage extends AbstractPage {
 
+    // Locators
+    private By signUpButton = By.id("signin2");
+    private By signUpModal = By.xpath("/html/body/div[2]/div/div/div[3]/button[2]");
+
+
     //Constructor
     public HomePage(WebDriver driver) {
         super(driver);
@@ -31,6 +36,22 @@ public class HomePage extends AbstractPage {
             return true; // If the element has become visible, the page is loaded.
         } catch (Exception e) {
             // If the item could not be found while waiting, we consider that the page is not loaded.
+            return false;
+        }
+    }
+
+    // Clicking on the “Sign Up” button
+    public void clickSignUpButton() {
+        driver.findElement(signUpButton).click();
+    }
+
+    // Checking whether the registration modal is visible
+    public boolean isSignUpModalVisible() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // We wait a maximum of 10 seconds
+        try {
+            WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(signUpModal));
+            return modal.isDisplayed();
+        } catch (Exception e) {
             return false;
         }
     }
