@@ -39,7 +39,7 @@ public class SecondProductPage extends AbstractProductPage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[5]/div/div[2]/div[1]/div/div/p")));
         String actualText = element.getText();
-        System.out.println("Actual text: " + actualText); // Wyświetl tekst w konsoli
+        System.out.println("Actual text: " + actualText); // Display text in the console
         String expectedText = "The Nokia Lumia 1520 is powered by 2.2GHz quad-core Qualcomm Snapdragon 800 processor and it comes with 2GB of RAM.";
         return actualText.contains(expectedText);
     }

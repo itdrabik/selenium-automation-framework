@@ -39,7 +39,7 @@ public class FirstProductPage extends AbstractProductPage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[5]/div/div[2]/div[1]/div/div/p")));
         String actualText = element.getText();
-        System.out.println("Actual text: " + actualText); // Wyświetl tekst w konsoli
+        System.out.println("Actual text: " + actualText); // Display text in the console
         String expectedText = "The Samsung Galaxy S6 is powered by 1.5GHz octa-core Samsung Exynos 7420 processor and it comes with 3GB of RAM. The phone packs 32GB of internal storage cannot be expanded.";
         return actualText.contains(expectedText);
     }
