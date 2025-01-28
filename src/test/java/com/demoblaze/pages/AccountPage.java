@@ -49,4 +49,27 @@ public class AccountPage {
         wait.until(ExpectedConditions.alertIsPresent()); // Expect a pop-up
         driver.switchTo().alert().accept(); // Click OK on the pop-up
     }
+
+    public void openLoginModal() {
+        driver.findElement(By.id("login2")).click();
+    }
+
+
+    public void fillLoginModal(String username, String password) {
+        // We wait until the login field is visible and clicked
+        WebElement usernameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginusername")));
+        usernameField.clear();
+        usernameField.sendKeys(username);
+
+        // We wait until the password field is visible and clicked
+        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginpassword")));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
+
+
+    public void submitLogin() {
+        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+    }
+
 }
