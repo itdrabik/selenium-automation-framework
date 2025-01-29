@@ -72,4 +72,27 @@ public class AccountPage {
         driver.findElement(By.xpath("//button[text()='Log in']")).click();
     }
 
+    public void logout() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("logout2")));
+        logoutButton.click();
+    }
+
+    public boolean isUserLoggedIn() {
+        return driver.findElements(By.id("logout2")).size() > 0;
+    }
+
+
+    public boolean isLogoutButtonVisible() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            WebElement logoutButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/nav/div[1]/ul/li[6]/a")));
+            return logoutButton.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+
 }

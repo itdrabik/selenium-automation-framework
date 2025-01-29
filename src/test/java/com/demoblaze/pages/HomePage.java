@@ -1,6 +1,5 @@
 package com.demoblaze.pages;
 
-import com.demoblaze.pages.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,28 +13,26 @@ public class HomePage extends AbstractPage {
     // Locators
     private By signUpButton = By.id("signin2");
     private By signUpModal = By.xpath("/html/body/div[2]/div/div/div[3]/button[2]");
+    private By categoryList = By.id("cat");
+    private By firstProduct = By.cssSelector(".card-title a");
 
-
-    //Constructor
+    // Constructor
     public HomePage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public String getPageUrl(){
+    public String getPageUrl() {
         return "https://www.demoblaze.com/";
     }
 
     @Override
     public boolean isPageLoaded() {
-        // We create a WebDriverWait object that will wait up to 3 seconds for the item to appear.
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         try {
-            // Wait for the element to appear, which indicates that the page is loaded.
-            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("cat")));
-            return true; // If the element has become visible, the page is loaded.
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(categoryList));
+            return true;
         } catch (Exception e) {
-            // If the item could not be found while waiting, we consider that the page is not loaded.
             return false;
         }
     }
@@ -47,7 +44,7 @@ public class HomePage extends AbstractPage {
 
     // Checking whether the registration modal is visible
     public boolean isSignUpModalVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // We wait a maximum of 10 seconds
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         try {
             WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(signUpModal));
             return modal.isDisplayed();
@@ -55,4 +52,21 @@ public class HomePage extends AbstractPage {
             return false;
         }
     }
+
+
+
+    public void selectCategory(String categoryName) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement category = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(categoryName)));
+        category.click();
+    }
+
+    public void clickFirstProduct() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        By firstProductLocator = By.xpath("(//*[@id='tbodyid']//a)[1]"); // XPath of the first product
+        WebElement firstProduct = wait.until(ExpectedConditions.elementToBeClickable(firstProductLocator));
+        firstProduct.click();
+    }
+
+
 }
