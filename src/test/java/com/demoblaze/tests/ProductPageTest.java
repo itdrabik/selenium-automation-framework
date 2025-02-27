@@ -1,18 +1,11 @@
 package com.demoblaze.tests;
 
-import com.demoblaze.config.ConfigManager;
 import com.demoblaze.pages.FirstProductPage;
 import com.demoblaze.pages.SecondProductPage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import com.demoblaze.config.DriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,26 +15,15 @@ public class ProductPageTest {
 
     private WebDriver driver;
 
+
     @BeforeEach
     @Step("Setup browser for product page tests")
     public void setUp() {
-        String browser = ConfigManager.getProperty("browser");
+       driver = DriverFactory.getDriver();
+       driver.get(driver.getCurrentUrl());
 
-        if ("chrome".equalsIgnoreCase(browser)) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            driver = new ChromeDriver(options);
-        } else if ("firefox".equalsIgnoreCase(browser)) {
-            WebDriverManager.firefoxdriver().setup();
-            FirefoxOptions options = new FirefoxOptions();
-            driver = new FirefoxDriver(options);
-        } else if ("edge".equalsIgnoreCase(browser)) {
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions options = new EdgeOptions();
-            driver = new EdgeDriver(options);
-        } else {
-            throw new IllegalArgumentException("Unsupported browser: " + browser);
-        }
+
+
     }
 
     @Test
@@ -81,8 +63,6 @@ public class ProductPageTest {
     @AfterEach
     @Step("Close the browser after product page test")
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        DriverFactory.quitDriver();
     }
 }

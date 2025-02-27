@@ -2,19 +2,13 @@ package com.demoblaze.tests;
 
 import com.demoblaze.config.ConfigManager;
 import com.demoblaze.pages.HomePage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import com.demoblaze.config.DriverFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,28 +19,12 @@ public class HomePageTest {
 
     private WebDriver driver;
     private HomePage homePage;
+    private final String url = "https://www.demoblaze.com";
 
     @BeforeEach
     @Step("Setup browser and navigate to the home page")
     public void setUp() {
-        String browser = ConfigManager.getProperty("browser");
-        String url = ConfigManager.getProperty("url");
-
-        if ("chrome".equalsIgnoreCase(browser)) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            driver = new ChromeDriver(options);
-        } else if ("firefox".equalsIgnoreCase(browser)) {
-            WebDriverManager.firefoxdriver().setup();
-            FirefoxOptions options = new FirefoxOptions();
-            driver = new FirefoxDriver(options);
-        } else if ("edge".equalsIgnoreCase(browser)) {
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions options = new EdgeOptions();
-            driver = new EdgeDriver(options);
-        } else {
-            throw new IllegalArgumentException("Unsupported browser: " + browser);
-        }
+        driver = DriverFactory.getDriver();
 
         driver.get(url);
         homePage = new HomePage(driver);
@@ -246,8 +224,6 @@ public class HomePageTest {
     @AfterEach
     @Step("Close the browser")
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        DriverFactory.quitDriver();
     }
 }

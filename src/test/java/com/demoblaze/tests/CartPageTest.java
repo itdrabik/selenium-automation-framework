@@ -1,19 +1,13 @@
 package com.demoblaze.tests;
 
-import com.demoblaze.config.ConfigManager;
 import com.demoblaze.pages.CartPage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import com.demoblaze.config.DriverFactory;
+
 
 import java.time.Duration;
 
@@ -27,29 +21,13 @@ public class CartPageTest {
 
     private WebDriver driver;
     private CartPage cartPage;
+    private final String url = "https://www.demoblaze.com/cart.html";
 
     @BeforeEach
     @Step("Setup WebDriver and navigate to Cart Page")
+
     public void setUp() {
-        String browser = ConfigManager.getProperty("browser");
-        String url = "https://www.demoblaze.com/cart.html";
-
-        if ("chrome".equalsIgnoreCase(browser)) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            driver = new ChromeDriver(options);
-        } else if ("firefox".equalsIgnoreCase(browser)) {
-            WebDriverManager.firefoxdriver().setup();
-            FirefoxOptions options = new FirefoxOptions();
-            driver = new FirefoxDriver(options);
-        } else if ("edge".equalsIgnoreCase(browser)) {
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions options = new EdgeOptions();
-            driver = new EdgeDriver(options);
-        } else {
-            throw new IllegalArgumentException("Unsupported browser: " + browser);
-        }
-
+        driver = DriverFactory.getDriver();
         driver.get(url);
         cartPage = new CartPage(driver);
     }
@@ -60,6 +38,8 @@ public class CartPageTest {
     @Description("Check if the cart page title is 'STORE'")
     @Severity(SeverityLevel.NORMAL)
     public void testCartPageTitle() {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.titleIs("STORE"));
         assertEquals("STORE", cartPage.getPageTitle());
     }
 
@@ -288,8 +268,6 @@ public class CartPageTest {
     @AfterEach
     @Step("Close browser after test execution")
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        DriverFactory.quitDriver(); // Teraz poprawnie zamykamy WebDriver
     }
 }
