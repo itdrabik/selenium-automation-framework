@@ -1,17 +1,20 @@
 package com.demoblaze.pages;
 
+import com.demoblaze.utils.ActionWrapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 public class ProductPage extends AbstractPage {
-    private By addToCartButton = By.xpath("//a[text()='Add to cart']");
+    private ActionWrapper actionWrapper;
 
+    // Locators
+    private By addToCartButton = By.xpath("//a[text()='Add to cart']");
+    private By productTitle = By.className("name"); // Product header
+
+    // Constructor
     public ProductPage(WebDriver driver) {
         super(driver);
+        this.actionWrapper = new ActionWrapper(driver);
     }
 
     @Override
@@ -19,27 +22,18 @@ public class ProductPage extends AbstractPage {
         return "https://www.demoblaze.com/prod.html";
     }
 
-
-
+    // Clicks the "Add to Cart" button
     public void addToCart() {
-        driver.findElement(addToCartButton).click();
+        actionWrapper.click(addToCartButton);
     }
 
+    // Accepts the alert popup after adding a product to the cart
     public void acceptPopup() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
+        actionWrapper.acceptAlert();
     }
 
     @Override
     public boolean isPageLoaded() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        try {
-            WebElement productTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("name"))); // Product header
-            return productTitle.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return actionWrapper.isElementVisible(productTitle);
     }
-
 }

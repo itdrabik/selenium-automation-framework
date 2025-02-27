@@ -1,14 +1,12 @@
 package com.demoblaze.pages;
 
+import com.demoblaze.utils.ActionWrapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class HomePage extends AbstractPage {
+
+    private ActionWrapper actionWrapper;
 
     // Locators
     private By signUpButton = By.id("signin2");
@@ -19,6 +17,7 @@ public class HomePage extends AbstractPage {
     // Constructor
     public HomePage(WebDriver driver) {
         super(driver);
+        this.actionWrapper = new ActionWrapper(driver);
     }
 
     @Override
@@ -28,45 +27,26 @@ public class HomePage extends AbstractPage {
 
     @Override
     public boolean isPageLoaded() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        try {
-            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(categoryList));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return actionWrapper.isElementVisible(categoryList);
     }
 
-    // Clicking on the “Sign Up” button
+    // Clicks the "Sign Up" button
     public void clickSignUpButton() {
-        driver.findElement(signUpButton).click();
+        actionWrapper.click(signUpButton);
     }
 
-    // Checking whether the registration modal is visible
+    // Checks if the "Sign Up" modal is visible
     public boolean isSignUpModalVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        try {
-            WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(signUpModal));
-            return modal.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return actionWrapper.isElementVisible(signUpModal);
     }
 
-
-
+    // Selects a category by name
     public void selectCategory(String categoryName) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement category = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(categoryName)));
-        category.click();
+        actionWrapper.click(By.linkText(categoryName));
     }
 
+    // Clicks the first product in the list
     public void clickFirstProduct() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        By firstProductLocator = By.xpath("(//*[@id='tbodyid']//a)[1]"); // XPath of the first product
-        WebElement firstProduct = wait.until(ExpectedConditions.elementToBeClickable(firstProductLocator));
-        firstProduct.click();
+        actionWrapper.click(By.xpath("(//*[@id='tbodyid']//a)[1]"));
     }
-
-
 }

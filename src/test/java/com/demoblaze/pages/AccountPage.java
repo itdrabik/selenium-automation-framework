@@ -1,98 +1,90 @@
 package com.demoblaze.pages;
 
+import com.demoblaze.utils.ActionWrapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public class AccountPage extends AbstractPage {
 
-public class AccountPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private ActionWrapper actionWrapper;
 
     // Locators
-    private By signUpButton = By.id("signin2"); // Sign up button to open modal
-    private By signUpModal = By.id("signInModal"); // Modal registration
-    private By usernameInput = By.id("sign-username"); // Login field
-    private By passwordInput = By.id("sign-password"); // Password field
-    private By modalSignUpButton = By.xpath("//button[text()='Sign up']"); // Sign up button in modal
-    private By popup = By.xpath("//div[@class='modal-dialog']//button[text()='OK']"); // Pop-up confirmations
+    private By signUpButton = By.id("signin2");
+    private By signUpModal = By.id("signInModal");
+    private By usernameInput = By.id("sign-username");
+    private By passwordInput = By.id("sign-password");
+    private By modalSignUpButton = By.xpath("//button[text()='Sign up']");
+    private By loginButton = By.id("login2");
+    private By loginUsername = By.id("loginusername");
+    private By loginPassword = By.id("loginpassword");
+    private By submitLoginButton = By.xpath("//button[text()='Log in']");
+    private By logoutButton = By.id("logout2");
 
+    // Constructor
     public AccountPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Waiting up to 10 seconds
+        super(driver);
+        this.actionWrapper = new ActionWrapper(driver);
     }
 
+    @Override
+    public String getPageUrl() {
+        return "https://www.demoblaze.com/";
+    }
+
+    // Opens the Sign Up modal
     public void openSignUpModal() {
-        driver.findElement(signUpButton).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(signUpModal)); // Wait for the modal
+        actionWrapper.click(signUpButton);
+        actionWrapper.waitForElementPresence(signUpModal);
     }
 
+    // Fills the Sign Up form
     public void fillSignUpModal(String username, String password) {
-        WebElement usernameField = wait.until(ExpectedConditions.elementToBeClickable(usernameInput));
-        usernameField.clear();
-        usernameField.sendKeys(username);
-
-        WebElement passwordField = wait.until(ExpectedConditions.elementToBeClickable(passwordInput));
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        actionWrapper.type(usernameInput, username);
+        actionWrapper.type(passwordInput, password);
     }
 
+    // Submits the Sign Up form
     public void submitSignUp() {
-        WebElement signUpBtn = wait.until(ExpectedConditions.elementToBeClickable(modalSignUpButton));
-        signUpBtn.click();
+        actionWrapper.click(modalSignUpButton);
     }
 
+    // Confirms the sign-up alert pop-up
     public void confirmSignUpPopup() {
-        wait.until(ExpectedConditions.alertIsPresent()); // Expect a pop-up
-        driver.switchTo().alert().accept(); // Click OK on the pop-up
+        actionWrapper.acceptAlert();
     }
 
+    // Opens the Login modal
     public void openLoginModal() {
-        driver.findElement(By.id("login2")).click();
+        actionWrapper.click(loginButton);
     }
 
-
+    // Fills the login form
     public void fillLoginModal(String username, String password) {
-        // We wait until the login field is visible and clicked
-        WebElement usernameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginusername")));
-        usernameField.clear();
-        usernameField.sendKeys(username);
-
-        // We wait until the password field is visible and clicked
-        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginpassword")));
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        actionWrapper.type(loginUsername, username);
+        actionWrapper.type(loginPassword, password);
     }
 
-
+    // Submits login form
     public void submitLogin() {
-        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+        actionWrapper.click(submitLoginButton);
     }
 
+    // Logs the user out
     public void logout() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("logout2")));
-        logoutButton.click();
-    }
-
-    public boolean isUserLoggedIn() {
-        return driver.findElements(By.id("logout2")).size() > 0;
-    }
-
-
-    public boolean isLogoutButtonVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        try {
-            WebElement logoutButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/nav/div[1]/ul/li[6]/a")));
-            return logoutButton.isDisplayed();
-        } catch (Exception e) {
-            return false;
+        if (isUserLoggedIn()) {
+            actionWrapper.click(logoutButton);
+        } else {
+            System.out.println("User is already logged out.");
         }
     }
 
+    // Checks if the user is logged in
+    public boolean isUserLoggedIn() {
+        return actionWrapper.isElementVisible(logoutButton);
+    }
 
-
+    // Checks if the logout button is visible
+    public boolean isLogoutButtonVisible() {
+        return actionWrapper.isElementVisible(logoutButton);
+    }
 }

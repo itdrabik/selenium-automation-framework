@@ -1,5 +1,6 @@
 package com.demoblaze.pages;
 
+import com.demoblaze.utils.ActionWrapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +11,9 @@ import java.time.Duration;
 
 public class CartPage extends AbstractPage {
 
-    // Locatory
+    private ActionWrapper actionWrapper;
+
+    // Locators
     private By signUpButton = By.id("signin2");
     private By signUpModal = By.xpath("/html/body/div[2]/div/div/div[3]/button[2]");
     private By productList = By.id("tbodyid");
@@ -24,10 +27,12 @@ public class CartPage extends AbstractPage {
     private By purchaseButton = By.xpath("//button[text()='Purchase']");
     private By confirmationModal = By.className("sweet-alert");
     private By confirmationOkButton = By.xpath("//button[text()='OK']");
+    private By cartButton = By.id("cartur");
 
-    // Konstruktor
+    // Constructor
     public CartPage(WebDriver driver) {
         super(driver);
+        this.actionWrapper = new ActionWrapper(driver);
     }
 
     @Override
@@ -37,58 +42,40 @@ public class CartPage extends AbstractPage {
 
     @Override
     public boolean isPageLoaded() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        try {
-            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-wrapper")));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return actionWrapper.isElementVisible(By.id("page-wrapper"));
     }
 
-    // Clicking on the “Sign Up” button
+    // Clicks the "Sign Up" button
     public void clickSignUpButton() {
-        driver.findElement(signUpButton).click();
+        actionWrapper.click(signUpButton);
     }
 
-    // Checking whether the registration modal is visible
+    // Checks if the "Sign Up" modal is visible
     public boolean isSignUpModalVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // We wait a maximum of 10 seconds
-        try {
-            WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(signUpModal));
-            return modal.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return actionWrapper.isElementVisible(signUpModal);
     }
 
-    // Checking if the cart has products
+    // Checks if there are products in the cart
     public boolean isProductInCart() {
-        return !driver.findElements(productList).isEmpty();
+        return actionWrapper.isElementVisible(productList);
     }
 
-    // Clicking "Place Order"
+    // Clicks the "Place Order" button
     public void clickPlaceOrder() {
-        driver.findElement(placeOrderButton).click();
+        actionWrapper.click(placeOrderButton);
     }
 
-
-    // Clicking "Purchase"
+    // Clicks the "Purchase" button
     public void clickPurchase() {
-        driver.findElement(purchaseButton).click();
+        actionWrapper.click(purchaseButton);
     }
 
-    // Checking if the confirmation modal appears
+    // Checks if the confirmation modal is visible
     public boolean isConfirmationVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(confirmationModal)).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return actionWrapper.isElementVisible(confirmationModal);
     }
 
-    // Clicking "OK" on the confirmation modal
+    // Confirms the purchase by clicking "OK"
     public void confirmPurchase() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -132,35 +119,24 @@ public class CartPage extends AbstractPage {
     }
 
 
+
+    // Navigates to the cart page
     public void goToCart() {
-        WebElement cartButton = driver.findElement(By.id("cartur"));
-        cartButton.click();
+        actionWrapper.click(cartButton);
     }
 
+    // Checks if the cart is empty
     public boolean isCartEmpty() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='tbodyid']/tr"))); // We are waiting for the product to disappear
-            return driver.findElements(By.xpath("//*[@id='tbodyid']/tr")).isEmpty(); // We check for rows in the product table
-        } catch (Exception e) {
-            return false;
-        }
+        return !actionWrapper.isElementVisible(By.xpath("//*[@id='tbodyid']/tr"));
     }
 
+    // Fills out the order form
     public void fillOrderForm(String name, String country, String city, String creditCard, String month, String year) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        // We are waiting for the form to appear on the site
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
-
-        // We fill out the form with data
-        driver.findElement(By.id("name")).sendKeys(name);
-        driver.findElement(By.id("country")).sendKeys(country);
-        driver.findElement(By.id("city")).sendKeys(city);
-        driver.findElement(By.id("card")).sendKeys(creditCard);
-        driver.findElement(By.id("month")).sendKeys(month);
-        driver.findElement(By.id("year")).sendKeys(year);
+        actionWrapper.type(nameInput, name);
+        actionWrapper.type(countryInput, country);
+        actionWrapper.type(cityInput, city);
+        actionWrapper.type(creditCardInput, creditCard);
+        actionWrapper.type(monthInput, month);
+        actionWrapper.type(yearInput, year);
     }
-
-
 }

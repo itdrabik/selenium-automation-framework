@@ -3,16 +3,22 @@ package com.demoblaze.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import com.demoblaze.utils.ActionWrapper;
 
 
 public abstract class AbstractPage implements Page {
 
     protected WebDriver driver;
+    protected ActionWrapper actionWrapper;
 
     // Constructor for AbstractPage
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
+        if (driver != null) {
+            this.actionWrapper = new ActionWrapper(driver);
+        } else {
+            throw new IllegalArgumentException("WebDriver cannot be null!");
+        }
     }
 
     @Override
@@ -44,44 +50,37 @@ public abstract class AbstractPage implements Page {
 
     // Method to click login button
     public void clickLoginButton() {
-        WebElement loginButton = driver.findElement(By.id("login2"));
-        loginButton.click();
+        actionWrapper.click(By.id("login2"));
     }
 
     // Method to check the visibility of the pop-up window for Login
     public boolean isLoginModalVisible() {
-        WebElement loginModal = driver.findElement(By.id("logInModal"));
-        return loginModal.isDisplayed();
+        return actionWrapper.isElementVisible(By.id("logInModal"));
     }
 
     // Method that clicks the “SignUpButton” button
     public void clickSignUpButton() {
-        WebElement signUpButton = driver.findElement(By.id("signin2"));
-        signUpButton.click();
+        actionWrapper.click(By.id("signin2"));
     }
 
     // Method to check the visibility of the pop-up window for SignUp
     public boolean isSignUpModalVisible() {
-        WebElement signUpModal = driver.findElement(By.id("signInModal"));
-        return signUpModal.isDisplayed();
+        return actionWrapper.isElementVisible(By.id("signInModal"));
     }
 
     // Method to check the visibility of an element using Id
     public boolean isElementVisible(String elementId) {
-        WebElement element = driver.findElement(By.id(elementId));
-        return element.isDisplayed();
+        return actionWrapper.isElementVisible(By.id(elementId));
     }
 
     // Method to check the visibility of an element using xpath selector
-    public boolean isElementVisibleXpathSelector(String elementxpath) {
-        WebElement element = driver.findElement(By.xpath(elementxpath));
-        return element.isDisplayed();
+    public boolean isElementVisibleXpathSelector(String elementXpath) {
+        return actionWrapper.isElementVisible(By.xpath(elementXpath));
     }
 
     // Method to check the visibility of an element using CSS selector
     public boolean isElementVisibleCssSelector(String elementCssSelector) {
-        WebElement element = driver.findElement(By.cssSelector(elementCssSelector));
-        return element.isDisplayed();
+        return actionWrapper.isElementVisible(By.cssSelector(elementCssSelector));
     }
 
     // Method that checks the text on the page
